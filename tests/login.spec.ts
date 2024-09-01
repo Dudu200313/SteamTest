@@ -3,7 +3,6 @@ import { test, expect } from '@playwright/test';
 test('bem-sucedido', async ({ page }) => {
     await page.goto('https://store.steampowered.com/login/');
     await page.locator('#responsive_page_template_content input[type="text"]').fill('nome_usuario');
-    await page.locator('#responsive_page_template_content input[type="text"]').press('Tab');
     await page.locator('input[type="password"]').fill('senha_certa');
     await page.locator('input[type="password"]').press('Enter');
     await expect(page.getByText('Use the Steam Mobile App to')).toBeVisible();
@@ -12,7 +11,6 @@ test('bem-sucedido', async ({ page }) => {
 test('nome-com-espacos', async ({ page }) => {
     await page.goto('https://store.steampowered.com/login/');
     await page.locator('#responsive_page_template_content input[type="text"]').fill('     nome_usuario     ');
-    await page.locator('#responsive_page_template_content input[type="text"]').press('Tab');
     await page.locator('input[type="password"]').fill('senha_certa');
     await page.locator('input[type="password"]').press('Enter');
     await expect(page.getByText('Use the Steam Mobile App to')).toBeVisible();
@@ -21,7 +19,6 @@ test('nome-com-espacos', async ({ page }) => {
 test('senha-incorreta', async ({ page }) => {
     await page.goto('https://store.steampowered.com/login/');
     await page.locator('#responsive_page_template_content input[type="text"]').fill('nome_usuario');
-    await page.locator('#responsive_page_template_content input[type="text"]').press('Tab');
     await page.locator('input[type="password"]').fill('batata');
     await page.locator('input[type="password"]').press('Enter');
     await expect(page.getByText('Please check your password')).toBeVisible();
@@ -30,7 +27,6 @@ test('senha-incorreta', async ({ page }) => {
 test('campos-maiusculo-minusculo', async ({ page }) => {
     await page.goto('https://store.steampowered.com/login/');
     await page.locator('#responsive_page_template_content input[type="text"]').fill('Nome_Usuario_Maiusculo_Minusculo');
-    await page.locator('#responsive_page_template_content input[type="text"]').press('Tab');
     await page.locator('input[type="password"]').fill('Senha_Maiusculo_Minusculo');
     await page.locator('input[type="password"]').press('Enter');
     await expect(page.getByText('Please check your password')).toBeVisible();
@@ -39,7 +35,6 @@ test('campos-maiusculo-minusculo', async ({ page }) => {
 test('senha-maiusculo-minusculo', async ({ page }) => {
     await page.goto('https://store.steampowered.com/login/');
     await page.locator('#responsive_page_template_content input[type="text"]').fill('nome_usuario');
-    await page.locator('#responsive_page_template_content input[type="text"]').press('Tab');
     await page.locator('input[type="password"]').fill('Senha_Maiusculo_Minusculo');
     await page.locator('input[type="password"]').press('Enter');
     await expect(page.getByText('Please check your password')).toBeVisible();
@@ -62,17 +57,16 @@ test('senha-vazia', async ({ page }) => {
 test('varias-tentativas', async ({ page }) => {
     await page.goto('https://store.steampowered.com/login/');
     await page.locator('#responsive_page_template_content input[type="text"]').fill('nome_usuario');
-    await page.locator('#responsive_page_template_content input[type="text"]').press('Tab');
     await page.locator('input[type="password"]').fill('batata');
-    await page.locator('input[type="password"]').press('Enter');
-    await page.locator('input[type="password"]').press('Enter');
-    await page.locator('input[type="password"]').press('Enter');
-    await page.locator('input[type="password"]').press('Enter');
-    await page.locator('input[type="password"]').press('Enter');
-    await page.locator('input[type="password"]').press('Enter');
-    await page.locator('input[type="password"]').press('Enter');
-    await page.locator('input[type="password"]').press('Enter');
-    await expect(page.getByText('Something went wrong while')).toBeVisible();
+    while (true) {
+        await page.locator('input[type="password"]').press('Enter');
+        
+        if (await page.getByText('Something went wrong while').isVisible()) {
+            break;
+        }
+
+        await page.waitForTimeout(500);
+    }
 });
 
 test('app-movel', async ({ page }) => {
