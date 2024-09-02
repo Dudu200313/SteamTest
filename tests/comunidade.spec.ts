@@ -22,8 +22,8 @@ test('menu-subsecoes', async ({ page }) => {
 
 test('permanencia-botao-favoritar-screenshot', async ({ page }) => {
   await page.goto('https://store.steampowered.com/login/');
-  await page.locator('#responsive_page_template_content input[type="text"]').fill('TesteQualidadeSteam');
-  await page.locator('input[type="password"]').fill('6%J=3@8h');
+  await page.locator('#responsive_page_template_content input[type="text"]').fill('nome_usuario');
+  await page.locator('input[type="password"]').fill('senha_certa');
   await page.locator('input[type="password"]').press('Enter');
   await expect(page).toHaveURL('https://store.steampowered.com/');
   await page.getByRole('link', { name: 'COMMUNITY' }).click();
@@ -58,8 +58,8 @@ test('videos-modal', async ({ page }) => {
 
 test('se-inscrever-workshop', async ({ page }) => {
   await page.goto('https://store.steampowered.com/login/');
-  await page.locator('#responsive_page_template_content input[type="text"]').fill('TesteQualidadeSteam');
-  await page.locator('input[type="password"]').fill('6%J=3@8h');
+  await page.locator('#responsive_page_template_content input[type="text"]').fill('nome_usuario');
+  await page.locator('input[type="password"]').fill('senha_certa');
   await page.locator('input[type="password"]').press('Enter');
   await expect(page).toHaveURL('https://store.steampowered.com/');
   await page.getByRole('link', { name: 'COMMUNITY' }).click();
