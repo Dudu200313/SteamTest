@@ -35,7 +35,7 @@ test('Testando campo explora por categoria (Casuais)', async ({ page }) => {
 test('Testando campo explora por categoria (Corridas)', async ({ page }) => {
   await page.goto('https://www.google.com/search?q=steam&oq=steam&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDE1ODNqMGoyqAIAsAIB&sourceid=chrome&ie=UTF-8');
   await page.getByRole('link', { name: 'Bem-vindo(a) ao Steam Steam' }).click();
-  await page.getByRole('link', { name: 'Corridas' }).nth(1).click();
+  await page.getByRole('link', { name: 'Ação' }).nth(1).click();
 });
 
 
