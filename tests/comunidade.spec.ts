@@ -69,3 +69,56 @@ test('se-inscrever-workshop', async ({ page }) => {
   await expect(page.frameLocator('iframe').getByText('This item has been added to your Subscriptions.')).toBeVisible();
   await page.frameLocator('iframe').locator('#SubscribeItemBtn').click();
 });
+
+test('Img-worksshop', async ({ page }) => {
+  await page.goto('https://www.google.com/search?q=steam&oq=steam&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDE2MTVqMGoyqAIAsAIB&sourceid=chrome&ie=UTF-8');
+  await page.goto('https://store.steampowered.com/?l=portuguese');
+  await page.getByRole('link', { name: 'COMUNIDADE' }).click();
+  await page.getByRole('link', { name: 'Workshop' }).click();
+  await page.locator('.apphub_CardContentTitle').first().click();
+});
+
+test('Botão de like-Guides', async ({ page }) => {
+  await page.goto('https://www.google.com/search?q=steam&oq=steam&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDI4NTJqMGoyqAIAsAIB&sourceid=chrome&ie=UTF-8');
+  await page.getByRole('link', { name: 'Bem-vindo(a) ao Steam Steam' }).click();
+  await page.getByRole('link', { name: 'COMUNIDADE' }).click();
+  await page.getByRole('link', { name: 'Guides' }).click();
+  await page.locator('#apphub_Card_3324030720').getByText('Star Trucker: Guide').click();
+  await page.frameLocator('iframe').locator('#VoteUpBtn').click();
+});
+
+test('Botão de Like-Reviews', async ({ page }) => {
+  await page.goto('https://www.google.com/search?q=steam&oq=steam&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDE2NzlqMGoyqAIAsAIB&sourceid=chrome&ie=UTF-8');
+  await page.getByRole('link', { name: 'Bem-vindo(a) ao Steam Steam' }).click();
+  await page.getByRole('link', { name: 'COMUNIDADE' }).click();
+  await page.getByRole('link', { name: 'Reviews' }).click();
+  await page.getByText('Posted: September 2 Product').click();
+  await page.frameLocator('iframe').locator('#RecommendationVoteUpBtn174051829').getByText('Yes').click();
+  await page.frameLocator('iframe').getByText('Sign In').click();
+  await page.goto('https://steamcommunity.com/profiles/76561198401087067/recommended/632360/?insideModal=0');
+  await page.locator('#RecommendationVoteUpBtn174051829 i').click();
+});
+
+test('Botão de Deslike-Reviews', async ({ page }) => {
+  await page.goto('https://www.google.com/search?q=steam&oq=steam&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDE5MDlqMGoyqAIAsAIB&sourceid=chrome&ie=UTF-8');
+  await page.getByRole('link', { name: 'Bem-vindo(a) ao Steam Steam' }).click();
+  await page.getByRole('link', { name: 'COMUNIDADE' }).click();
+  await page.getByRole('link', { name: 'Reviews' }).click();
+  await page.getByText('Posted: September 2 Product').click();
+  await page.frameLocator('iframe').locator('#RecommendationVoteDownBtn174051829 i').click();
+  await page.frameLocator('iframe').getByText('Sign In').click();
+  await page.goto('https://steamcommunity.com/profiles/76561198401087067/recommended/632360/?insideModal=0');
+  await page.locator('#RecommendationVoteDownBtn174051829').getByText('No').click();
+});
+
+test('Botão de Funny-Reviews', async ({ page }) => {
+  await page.goto('https://www.google.com/search?q=steam&oq=steam&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDEzMjZqMGoyqAIAsAIB&sourceid=chrome&ie=UTF-8');
+  await page.getByRole('link', { name: 'Bem-vindo(a) ao Steam Steam' }).click();
+  await page.getByRole('link', { name: 'COMUNIDADE' }).click();
+  await page.getByRole('link', { name: 'Reviews' }).click();
+  await page.getByText('Posted: September 2 Product').click();
+  await page.frameLocator('iframe').getByText('Funny', { exact: true }).click();
+  await page.frameLocator('iframe').getByText('Sign In').click();
+  await page.goto('https://steamcommunity.com/profiles/76561198401087067/recommended/632360/?insideModal=0');
+  await page.getByText('Funny', { exact: true }).click();
+});
