@@ -20,10 +20,10 @@ test('Verificando se o botão Suporte redireciona para a página correta.', asyn
   await page.getByRole('link', { name: 'SUPORTE' }).click();
 });
 
-test('Testando campo explora por categoria (Grátis para jogar)', async ({ page }) => {
-  await page.goto('https://www.google.com/search?q=steam&oq=steam&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDIxMDJqMGoyqAIAsAIB&sourceid=chrome&ie=UTF-8');
+test('Testando o botão Jogos gratuitos', async ({ page }) => {
+  await page.goto('https://www.google.com/search?q=steam&oq=steam&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDE3MDFqMGoyqAIAsAIB&sourceid=chrome&ie=UTF-8');
   await page.getByRole('link', { name: 'Bem-vindo(a) ao Steam Steam' }).click();
-  await page.locator('a').filter({ hasText: /^Grátis para Jogar$/ }).click();
+  await page.getByRole('link', { name: 'Jogos gratuitos' }).click();
 });
 
 test('Testando campo explora por categoria (Casuais)', async ({ page }) => {
