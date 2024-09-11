@@ -7,7 +7,7 @@ test('adicionar-jogo', async ({ page }) => {
   await page.locator('input[type="password"]').press('Enter');
   await page.getByPlaceholder('search').fill('katana zero');
   await page.getByPlaceholder('search').press('Enter');
-  await page.getByRole('link', { name: 'Katana ZERO 18 Apr, 2019 R$' }).click();
+  await page.getByRole('link', { name: 'Katana ZERO' }).first().click();
   await page.locator('#btn_add_to_cart_100500').click();
   await page.getByRole('button', { name: 'View My Cart (1)' }).click();
   await expect(page.getByText('Your Shopping Cart', { exact: true })).toBeVisible();
@@ -77,7 +77,7 @@ test('permanencia-apos-logout', async ({ page }) => {
   await page.locator('input[type="password"]').press('Enter');
   await page.getByPlaceholder('search').fill('katana zero');
   await page.getByPlaceholder('search').press('Enter');
-  await page.getByRole('link', { name: 'Katana ZERO 18 Apr, 2019 R$' }).click();
+  await page.getByRole('link', { name: 'Katana ZERO' }).first().click();
   await page.locator('#btn_add_to_cart_100500').click();
   await page.getByRole('button', { name: 'View My Cart (1)' }).click();
   await page.getByLabel('Account Menu').getByText('TesteQualidade*****').click();
@@ -100,13 +100,28 @@ test('verificar-informacoes', async ({ page }) => {
   await page.locator('input[type="password"]').press('Enter');
   await page.getByPlaceholder('search').fill('katana zero');
   await page.getByPlaceholder('search').press('Enter');
-  await page.getByRole('link', { name: 'Katana ZERO 18 Apr, 2019 R$' }).click();
-  const precoPaginaTexto = await page.getByText('R$').first().textContent();
+  await page.getByRole('link', { name: 'Katana ZERO' }).first().click();
+
+  let isDiscounted = false;
+  let precoPaginaTexto;
+  let precoCarrinhoTexto;
+  
+  if (await page.getByLabel('% off. R$ 46,99 normally,').isVisible()) {
+    precoPaginaTexto = await page.getByText('R$').nth(1).textContent();
+    isDiscounted = true;
+  } else {
+    precoPaginaTexto = await page.getByText('R$').first().textContent();
+  }
   const precoPaginaNumero = parseFloat(precoPaginaTexto.replace('R$', '').replace(',', '.').trim());
   await page.locator('#btn_add_to_cart_100500').click();
   await page.getByRole('button', { name: 'View My Cart (1)' }).click();
   await expect(page.getByText('Katana ZERO')).toBeVisible();
-  const precoCarrinhoTexto = await page.locator('span').filter({ hasText: 'R$' }).locator('div').first().textContent();
+
+  if (isDiscounted) {
+    precoCarrinhoTexto = await page.locator('span').filter({ hasText: 'R$' }).locator('div').nth(2).textContent();
+  } else {
+    precoCarrinhoTexto = await page.locator('span').filter({ hasText: 'R$' }).locator('div').first().textContent();
+  }
   const precoCarrinhoNumero = parseFloat(precoCarrinhoTexto.replace('R$', '').replace(',', '.').trim());
   if (precoPaginaNumero !== precoCarrinhoNumero) {
     throw new Error('Deu ruim!');
